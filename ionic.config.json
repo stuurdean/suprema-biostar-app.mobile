@@ -1,0 +1,7 @@
+{
+  "name": "suprema-biostar-app.mobile",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}

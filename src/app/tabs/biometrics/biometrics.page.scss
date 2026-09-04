@@ -1,0 +1,178 @@
+.brand-toolbar {
+  --background: #0F172A;
+  --color: #ffffff;
+  --border-width: 0;
+}
+
+.form-content {
+  --background: #F1F5F9;
+}
+
+.form-card {
+  background: #ffffff;
+  border-radius: 14px;
+  border: 1px solid #E2E8F0;
+  margin: 16px;
+  padding: 16px;
+}
+
+.page-desc {
+  font-size: 13px;
+  color: #64748B;
+  margin: 0 0 16px;
+}
+
+.select-input {
+  width: 100%;
+  border: 1.5px solid #E2E8F0;
+  border-radius: 10px;
+  padding: 12px 14px;
+  background: #F8FAFC;
+  font-size: 14px;
+  color: #0F172A;
+}
+
+.error-text {
+  margin: 0 0 12px;
+  color: #ef4444;
+  font-size: 12px;
+}
+
+.empty-hint {
+  font-size: 13px;
+  color: #64748B;
+  margin: 0 0 14px;
+}
+
+// ── Biometric enroll actions ─────────────────────────────────────────────────
+.enroll-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin: 4px 0 12px;
+}
+
+.enroll-tile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 14px 6px;
+  border-radius: 10px;
+  border: 1px solid #E2E8F0;
+  background: #F8FAFC;
+  font-size: 12px;
+  font-weight: 700;
+  color: #0F172A;
+  cursor: pointer;
+
+  ion-icon {
+    font-size: 20px;
+    color: #16a34a;
+  }
+
+  &.active {
+    border-color: #16a34a;
+    background: rgba(22, 163, 74, 0.06);
+  }
+}
+
+.enroll-detail {
+  padding: 12px;
+  border-radius: 10px;
+  border: 1px solid #E2E8F0;
+  background: #F8FAFC;
+  margin-bottom: 16px;
+
+  .field-group {
+    margin-bottom: 10px;
+  }
+}
+
+.single-device-hint {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: #64748B;
+  margin: 0 0 10px;
+
+  ion-icon {
+    font-size: 14px;
+  }
+}
+
+.enroll-btn {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  gap: 10px;
+  padding: 13px 14px;
+  background: #F1F5F9;
+  border: 1px solid #E2E8F0;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #0F172A;
+  cursor: pointer;
+
+  ion-icon {
+    font-size: 18px;
+    color: #16a34a;
+  }
+
+  ion-spinner {
+    width: 18px;
+    height: 18px;
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+}
+
+.enrolled-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.enrolled-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  background: #F1F5F9;
+  border-radius: 10px;
+
+  ion-icon:first-child {
+    font-size: 16px;
+    color: #16a34a;
+  }
+}
+
+.enrolled-type {
+  flex: 1;
+  font-size: 13px;
+  font-weight: 600;
+  color: #0F172A;
+}
+
+.enrolled-date {
+  font-size: 11px;
+  color: #94a3b8;
+}
+
+.remove-btn {
+  background: none;
+  border: none;
+  padding: 4px;
+  cursor: pointer;
+  display: flex;
+
+  ion-icon {
+    font-size: 16px;
+    color: #ef4444;
+  }
+}

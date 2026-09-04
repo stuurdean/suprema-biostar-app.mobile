@@ -1,0 +1,80 @@
+<ion-header [translucent]="true" class="brand-header">
+  <ion-toolbar class="brand-toolbar">
+    <ion-title>Profile</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="profile-content">
+
+  <!-- Hero -->
+  <div class="profile-hero">
+    <div class="avatar-ring">
+      <div class="avatar-circle">{{ initials }}</div>
+    </div>
+    <h2 class="profile-name">{{ user?.name }}</h2>
+    <span class="role-badge">User ID {{ user?.userId }}</span>
+  </div>
+
+  <!-- Quick links -->
+  <div class="action-card">
+    <button class="action-row" [routerLink]="['/tabs/logs']">
+      <div class="info-icon-wrap navy"><ion-icon name="document-text-outline"></ion-icon></div>
+      <span class="action-label">My Logs</span>
+      <ion-icon name="chevron-forward-outline" class="action-arrow"></ion-icon>
+    </button>
+    <button class="action-row" [routerLink]="['/tabs/timesheet']">
+      <div class="info-icon-wrap sidebar"><ion-icon name="time-outline"></ion-icon></div>
+      <span class="action-label">Timesheet</span>
+      <ion-icon name="chevron-forward-outline" class="action-arrow"></ion-icon>
+    </button>
+    <button class="action-row" [routerLink]="['/tabs/biometrics']">
+      <div class="info-icon-wrap green"><ion-icon name="finger-print-outline"></ion-icon></div>
+      <span class="action-label">My Biometrics</span>
+      <ion-icon name="chevron-forward-outline" class="action-arrow"></ion-icon>
+    </button>
+  </div>
+
+  <!-- Face photo enrollment -->
+  <div class="face-card">
+    <div class="face-card-header">
+      <div class="info-icon-wrap green"><ion-icon name="camera-outline"></ion-icon></div>
+      <div>
+        <h3>
+          Face Photo
+          <ion-icon *ngIf="hasFacePhoto" name="checkmark-circle" class="ok-icon"></ion-icon>
+        </h3>
+        <p class="face-hint">Enroll a face photo using your phone's camera — shown on device access screens.</p>
+      </div>
+    </div>
+
+    <div class="camera-preview" *ngIf="capturing">
+      <video #videoEl autoplay playsinline muted></video>
+      <button class="btn-primary" (click)="capturePhoto()">
+        <ion-icon name="camera-outline"></ion-icon>
+        Capture
+      </button>
+      <button class="btn-secondary" (click)="cancelCapture()">Cancel</button>
+    </div>
+
+    <div class="captured-preview" *ngIf="capturedPhoto">
+      <img [src]="capturedPhoto" alt="Captured face photo" />
+      <button class="btn-primary" [disabled]="uploading" (click)="saveFacePhoto()">
+        {{ uploading ? 'Saving…' : 'Save Photo' }}
+      </button>
+      <button class="btn-secondary" [disabled]="uploading" (click)="retake()">Retake</button>
+    </div>
+
+    <button class="btn-secondary" *ngIf="!capturing && !capturedPhoto" (click)="startCapture()">
+      <ion-icon name="camera-outline"></ion-icon>
+      {{ hasFacePhoto ? 'Retake Face Photo' : 'Enroll Face Photo' }}
+    </button>
+
+    <p class="error-text" *ngIf="faceError">{{ faceError }}</p>
+  </div>
+
+  <button class="logout-btn" (click)="logout()">
+    <ion-icon name="log-out-outline"></ion-icon>
+    Log Out
+  </button>
+
+</ion-content>

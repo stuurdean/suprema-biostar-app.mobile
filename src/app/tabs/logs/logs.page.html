@@ -1,0 +1,45 @@
+<ion-header [translucent]="true">
+  <ion-toolbar class="brand-toolbar">
+    <ion-title>My Logs</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="logs-content">
+  <ion-refresher slot="fixed" (ionRefresh)="onRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <div class="stat-card" *ngIf="!isLoading && !errorMessage">
+    <div class="stat-icon"><ion-icon name="document-text-outline"></ion-icon></div>
+    <div class="stat-body">
+      <span class="stat-value">{{ logs.length }}</span>
+      <span class="stat-label">Access events</span>
+    </div>
+  </div>
+
+  <div class="state-message" *ngIf="isLoading">
+    <ion-spinner name="crescent"></ion-spinner>
+  </div>
+
+  <div class="state-message" *ngIf="!isLoading && errorMessage">
+    <p>{{ errorMessage }}</p>
+  </div>
+
+  <div class="state-message" *ngIf="!isLoading && !errorMessage && logs.length === 0">
+    <ion-icon name="document-text-outline"></ion-icon>
+    <p>No access logs yet.</p>
+  </div>
+
+  <div class="log-card" *ngIf="!isLoading && logs.length">
+    <div class="log-row" *ngFor="let log of logs">
+      <div class="log-icon-wrap" [ngClass]="eventTone(log.eventType)">
+        <ion-icon name="finger-print-outline"></ion-icon>
+      </div>
+      <div class="log-body">
+        <span class="log-title">{{ log.eventType }}</span>
+        <span class="log-sub">{{ log.deviceName }}</span>
+      </div>
+      <span class="log-time">{{ log.timestamp | date: 'short' }}</span>
+    </div>
+  </div>
+</ion-content>

@@ -1,0 +1,207 @@
+<ion-header [translucent]="true">
+  <ion-toolbar class="brand-toolbar">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/desktop/users"></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{ isEditMode ? 'Edit User' : 'Add User' }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="form-content">
+
+  <!-- Step 1: details -->
+  <div class="form-card">
+    <h3 class="section-title"><span class="step-badge">1</span> User details</h3>
+
+    <form [formGroup]="detailsForm" (ngSubmit)="saveDetails()" *ngIf="!savedUser || isEditMode" class="details-form">
+      <div class="field-group">
+        <label class="field-label">BioStar User ID</label>
+        <div class="input-wrapper">
+          <ion-icon name="finger-print-outline" class="input-icon"></ion-icon>
+          <input type="text" formControlName="userId" placeholder="e.g. 1024" class="field-input" />
+        </div>
+      </div>
+
+      <div class="field-group">
+        <label class="field-label">Full name</label>
+        <div class="input-wrapper">
+          <ion-icon name="person-outline" class="input-icon"></ion-icon>
+          <input type="text" formControlName="name" placeholder="e.g. Jane Doe" class="field-input" />
+        </div>
+      </div>
+
+      <div class="field-group">
+        <label class="field-label">User type</label>
+        <select formControlName="userTypeId" class="select-input">
+          <option [ngValue]="null" disabled>Select a type</option>
+          <option *ngFor="let type of userTypes" [ngValue]="type.id">{{ type.name }}</option>
+        </select>
+      </div>
+
+      <!-- Portal app access (create only) -->
+      <div class="portal-access" *ngIf="!isEditMode">
+        <label class="toggle-row">
+          <span class="field-label">Grant portal app access</span>
+          <input type="checkbox" [checked]="grantPortalAccess" (change)="togglePortalAccess()" class="toggle-check" />
+        </label>
+
+        <ng-container *ngIf="grantPortalAccess">
+          <div class="field-group">
+            <label class="field-label">Login ID</label>
+            <div class="input-wrapper disabled">
+              <ion-icon name="mail-outline" class="input-icon"></ion-icon>
+              <input type="text" [value]="detailsForm.get('userId')?.value" class="field-input" disabled />
+            </div>
+            <span class="field-hint">This user signs into the portal app with their BioStar User ID above.</span>
+          </div>
+
+          <div class="field-group">
+            <label class="field-label">Portal password</label>
+            <div class="input-wrapper">
+              <ion-icon name="lock-closed-outline" class="input-icon"></ion-icon>
+              <input
+                [type]="showPassword ? 'text' : 'password'"
+                formControlName="portalPassword"
+                placeholder="Set a password"
+                class="field-input"
+              />
+              <button type="button" class="toggle-pw" (click)="togglePassword()">
+                <ion-icon [name]="showPassword ? 'eye-off-outline' : 'eye-outline'"></ion-icon>
+              </button>
+            </div>
+          </div>
+        </ng-container>
+      </div>
+
+      <p class="error-text" *ngIf="errorMessage">{{ errorMessage }}</p>
+
+      <button type="submit" class="btn-primary" [disabled]="detailsForm.invalid || isSaving">
+        <ion-spinner *ngIf="isSaving" name="crescent" class="btn-spinner"></ion-spinner>
+        <span *ngIf="!isSaving">{{ isEditMode ? 'Save Changes' : 'Save & Continue' }}</span>
+      </button>
+    </form>
+
+    <div class="saved-banner" *ngIf="savedUser && !isEditMode">
+      <ion-icon name="checkmark-circle"></ion-icon>
+      <span><strong>{{ savedUser.name }}</strong> saved — User ID {{ savedUser.userId }}</span>
+    </div>
+  </div>
+
+  <!-- Step 2: biometrics -->
+  <div class="form-card" *ngIf="savedUser">
+    <h3 class="section-title"><span class="step-badge">2</span> Enroll biometrics</h3>
+
+    <p class="empty-hint" *ngIf="!devices.length">No devices connected. <a [routerLink]="['/desktop/devices']">Connect one</a> before enrolling biometrics.</p>
+
+    <p class="error-text" *ngIf="scanError">{{ scanError }}</p>
+
+    <!-- Each biometric type only offers devices that are online right now AND actually support it.
+         Tap a tile to reveal its device picker below before scanning. -->
+    <ng-container *ngIf="devices.length">
+      <div class="enroll-grid">
+        <button type="button" class="enroll-tile" [class.active]="expandedType === 'Fingerprint'" (click)="toggleEnrollRow('Fingerprint')">
+          <ion-icon name="finger-print-outline"></ion-icon>
+          <span>Fingerprint</span>
+        </button>
+        <button type="button" class="enroll-tile" [class.active]="expandedType === 'Face'" (click)="toggleEnrollRow('Face')">
+          <ion-icon name="scan-outline"></ion-icon>
+          <span>Face</span>
+        </button>
+        <button type="button" class="enroll-tile" [class.active]="expandedType === 'Card'" (click)="toggleEnrollRow('Card')">
+          <ion-icon name="card-outline"></ion-icon>
+          <span>Card</span>
+        </button>
+      </div>
+
+      <div class="enroll-detail" *ngIf="expandedType">
+        <ng-container *ngIf="expandedType === 'Fingerprint'">
+          <ng-container *ngIf="fingerprintDevices.length; else noFingerDevices">
+            <div class="field-group" *ngIf="fingerprintDevices.length > 1">
+              <select [(ngModel)]="selectedFingerprintDeviceId" [ngModelOptions]="{ standalone: true }" class="select-input">
+                <option *ngFor="let device of fingerprintDevices" [ngValue]="device.deviceId">
+                  {{ device.name || ('Device #' + device.deviceId) }} — {{ device.ipAddress }}
+                </option>
+              </select>
+            </div>
+            <p class="single-device-hint" *ngIf="fingerprintDevices.length === 1">
+              <ion-icon name="desktop-outline"></ion-icon>
+              {{ fingerprintDevices[0].name || ('Device #' + fingerprintDevices[0].deviceId) }} — {{ fingerprintDevices[0].ipAddress }}
+            </p>
+            <button type="button" class="enroll-btn" [disabled]="!!scanning" (click)="enroll('Fingerprint')">
+              <ion-spinner *ngIf="scanning === 'Fingerprint'" name="crescent"></ion-spinner>
+              <ion-icon *ngIf="scanning !== 'Fingerprint'" name="finger-print-outline"></ion-icon>
+              <span>{{ scanning === 'Fingerprint' ? 'Scanning finger…' : 'Start Fingerprint Scan' }}</span>
+            </button>
+          </ng-container>
+          <ng-template #noFingerDevices>
+            <p class="empty-hint">No online devices support fingerprint enrollment.</p>
+          </ng-template>
+        </ng-container>
+
+        <ng-container *ngIf="expandedType === 'Face'">
+          <ng-container *ngIf="faceDevices.length; else noFaceDevices">
+            <div class="field-group" *ngIf="faceDevices.length > 1">
+              <select [(ngModel)]="selectedFaceDeviceId" [ngModelOptions]="{ standalone: true }" class="select-input">
+                <option *ngFor="let device of faceDevices" [ngValue]="device.deviceId">
+                  {{ device.name || ('Device #' + device.deviceId) }} — {{ device.ipAddress }}
+                </option>
+              </select>
+            </div>
+            <p class="single-device-hint" *ngIf="faceDevices.length === 1">
+              <ion-icon name="desktop-outline"></ion-icon>
+              {{ faceDevices[0].name || ('Device #' + faceDevices[0].deviceId) }} — {{ faceDevices[0].ipAddress }}
+            </p>
+            <button type="button" class="enroll-btn" [disabled]="!!scanning" (click)="enroll('Face')">
+              <ion-spinner *ngIf="scanning === 'Face'" name="crescent"></ion-spinner>
+              <ion-icon *ngIf="scanning !== 'Face'" name="scan-outline"></ion-icon>
+              <span>{{ scanning === 'Face' ? 'Scanning face…' : 'Start Face Scan' }}</span>
+            </button>
+          </ng-container>
+          <ng-template #noFaceDevices>
+            <p class="empty-hint">No online devices support face enrollment.</p>
+          </ng-template>
+        </ng-container>
+
+        <ng-container *ngIf="expandedType === 'Card'">
+          <ng-container *ngIf="cardDevices.length; else noCardDevices">
+            <div class="field-group" *ngIf="cardDevices.length > 1">
+              <select [(ngModel)]="selectedCardDeviceId" [ngModelOptions]="{ standalone: true }" class="select-input">
+                <option *ngFor="let device of cardDevices" [ngValue]="device.deviceId">
+                  {{ device.name || ('Device #' + device.deviceId) }} — {{ device.ipAddress }}
+                </option>
+              </select>
+            </div>
+            <p class="single-device-hint" *ngIf="cardDevices.length === 1">
+              <ion-icon name="desktop-outline"></ion-icon>
+              {{ cardDevices[0].name || ('Device #' + cardDevices[0].deviceId) }} — {{ cardDevices[0].ipAddress }}
+            </p>
+            <button type="button" class="enroll-btn" [disabled]="!!scanning" (click)="enroll('Card')">
+              <ion-spinner *ngIf="scanning === 'Card'" name="crescent"></ion-spinner>
+              <ion-icon *ngIf="scanning !== 'Card'" name="card-outline"></ion-icon>
+              <span>{{ scanning === 'Card' ? 'Scanning card…' : 'Start Card Scan' }}</span>
+            </button>
+          </ng-container>
+          <ng-template #noCardDevices>
+            <p class="empty-hint">No online devices support card enrollment.</p>
+          </ng-template>
+        </ng-container>
+      </div>
+    </ng-container>
+
+    <div class="enrolled-list" *ngIf="enrolledBiometrics.length">
+      <div class="enrolled-item" *ngFor="let b of enrolledBiometrics">
+        <ion-icon
+          [name]="b.type === 'Fingerprint' ? 'finger-print-outline' : b.type === 'Face' ? 'scan-outline' : 'card-outline'">
+        </ion-icon>
+        <span class="enrolled-type">{{ b.type }}</span>
+        <span class="enrolled-date">{{ b.enrolledAt | date: 'short' }}</span>
+        <button type="button" class="remove-btn" (click)="removeBiometric(b)">
+          <ion-icon name="trash-outline"></ion-icon>
+        </button>
+      </div>
+    </div>
+
+    <button type="button" class="btn-secondary" (click)="finish()">Done — Back to Users</button>
+  </div>
+
+</ion-content>

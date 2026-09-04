@@ -1,0 +1,52 @@
+<ion-header [translucent]="true">
+  <ion-toolbar class="brand-toolbar">
+    <ion-title>Users</ion-title>
+    <ion-buttons slot="end">
+      <ion-button [routerLink]="['/desktop/users/new']">
+        <ion-icon slot="icon-only" name="person-add-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="users-content">
+  <ion-refresher slot="fixed" (ionRefresh)="onRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <div class="search-bar">
+    <ion-icon name="search-outline" class="search-icon"></ion-icon>
+    <input
+      type="text"
+      placeholder="Search by name or user ID..."
+      [value]="searchTerm"
+      (input)="onSearch($any($event.target).value)"
+      class="search-input"
+    />
+  </div>
+
+  <p class="error-text" *ngIf="errorMessage">{{ errorMessage }}</p>
+  <p class="sync-status" *ngIf="syncMessage">{{ syncMessage }}</p>
+
+  <div class="state-message" *ngIf="isLoading">
+    <ion-spinner name="crescent"></ion-spinner>
+  </div>
+
+  <div class="state-message" *ngIf="!isLoading && filteredUsers.length === 0">
+    <ion-icon name="people-outline"></ion-icon>
+    <p>No users found.</p>
+  </div>
+
+  <div class="user-card" *ngFor="let user of filteredUsers" [routerLink]="['/desktop/users/new']" [queryParams]="{ id: user.id }">
+    <div class="user-avatar">{{ user.name.charAt(0).toUpperCase() }}</div>
+    <div class="user-body">
+      <span class="user-name">{{ user.name }}</span>
+      <span class="user-sub">{{ user.userType }} · ID {{ user.userId }}</span>
+    </div>
+    <button type="button" class="sync-btn" [disabled]="!!syncingUserId" (click)="syncUser(user, $event)" title="Sync to devices now">
+      <ion-icon *ngIf="syncingUserId !== user.id" name="sync-outline"></ion-icon>
+      <ion-spinner *ngIf="syncingUserId === user.id" name="crescent"></ion-spinner>
+    </button>
+    <ion-icon name="chevron-forward-outline" class="user-arrow"></ion-icon>
+  </div>
+</ion-content>

@@ -1,0 +1,253 @@
+// ── Header ───────────────────────────────────────────────────────────────────
+.brand-toolbar {
+  --background: #0F172A;
+  --color: #ffffff;
+  --border-width: 0;
+}
+
+// ── Content ──────────────────────────────────────────────────────────────────
+.profile-content {
+  --background: #F1F5F9;
+}
+
+// ── Hero ─────────────────────────────────────────────────────────────────────
+.profile-hero {
+  background: linear-gradient(160deg, #0F172A 0%, #1f2937 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 28px 16px 24px;
+  gap: 8px;
+}
+
+.avatar-ring {
+  padding: 3px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #16a34a, #22c55e);
+  margin-bottom: 4px;
+}
+
+.avatar-circle {
+  width: 68px;
+  height: 68px;
+  border-radius: 50%;
+  background: #1f2937;
+  color: #ffffff;
+  font-size: 22px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 3px solid #0F172A;
+}
+
+.profile-name {
+  font-size: 18px;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0;
+}
+
+.role-badge {
+  background: rgba(22, 163, 74, 0.2);
+  color: #4ade80;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 3px 12px;
+  border-radius: 99px;
+  border: 1px solid rgba(22, 163, 74, 0.3);
+}
+
+// ── Cards ────────────────────────────────────────────────────────────────────
+.action-card,
+.face-card {
+  background: #ffffff;
+  border-radius: 14px;
+  border: 1px solid #E2E8F0;
+  margin: 16px 16px 0;
+}
+
+.action-card {
+  overflow: hidden;
+}
+
+.info-icon-wrap {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+
+  ion-icon {
+    font-size: 18px;
+    color: #ffffff;
+  }
+
+  &.green   { background: #16a34a; }
+  &.navy    { background: #0F172A; }
+  &.sidebar { background: #1f2937; }
+}
+
+.action-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 16px;
+  width: 100%;
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+
+  &:not(:last-child) {
+    border-bottom: 1px solid #F1F5F9;
+  }
+}
+
+.action-label {
+  flex: 1;
+  font-size: 14px;
+  color: #0F172A;
+  font-weight: 500;
+}
+
+.action-arrow {
+  font-size: 16px;
+  color: #cbd5e1;
+}
+
+// ── Face photo card ──────────────────────────────────────────────────────────
+.face-card {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.face-card-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+
+  h3 {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin: 0 0 4px;
+    font-size: 14px;
+    font-weight: 700;
+    color: #0F172A;
+  }
+
+  .ok-icon {
+    font-size: 16px;
+    color: #16a34a;
+  }
+
+  .face-hint {
+    margin: 0;
+    color: #64748B;
+    font-size: 12px;
+  }
+}
+
+.error-text {
+  margin: 0;
+  color: #ef4444;
+  font-size: 12px;
+}
+
+.camera-preview,
+.captured-preview {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  video,
+  img {
+    width: 160px;
+    height: 160px;
+    align-self: center;
+    border-radius: 12px;
+    object-fit: cover;
+    background: #F1F5F9;
+    transform: scaleX(-1);
+  }
+
+  img {
+    transform: none;
+  }
+}
+
+.btn-primary,
+.btn-secondary {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  padding: 12px;
+  font-size: 14px;
+  font-weight: 600;
+  border-radius: 10px;
+  cursor: pointer;
+  border: none;
+
+  ion-icon {
+    font-size: 16px;
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+}
+
+.btn-primary {
+  background: #16a34a;
+  color: #ffffff;
+  box-shadow: 0 4px 14px rgba(22, 163, 74, 0.35);
+
+  &:hover:not(:disabled) {
+    background: #15803d;
+  }
+}
+
+.btn-secondary {
+  background: #F1F5F9;
+  color: #0F172A;
+  border: 1px solid #E2E8F0;
+
+  &:hover:not(:disabled) {
+    background: #E2E8F0;
+  }
+}
+
+// ── Logout ───────────────────────────────────────────────────────────────────
+.logout-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: calc(100% - 32px);
+  margin: 16px 16px 32px;
+  padding: 14px;
+  background: #FEE2E2;
+  color: #b91c1c;
+  font-size: 15px;
+  font-weight: 600;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: background 0.2s;
+
+  ion-icon {
+    font-size: 18px;
+  }
+
+  &:hover {
+    background: #fecaca;
+  }
+}

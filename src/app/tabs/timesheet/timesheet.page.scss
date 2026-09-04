@@ -1,0 +1,119 @@
+.brand-toolbar {
+  --background: #0F172A;
+  --color: #ffffff;
+  --border-width: 0;
+}
+
+.timesheet-content {
+  --background: #F1F5F9;
+}
+
+.state-message {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 48px 24px;
+  color: var(--ion-color-medium);
+  text-align: center;
+
+  ion-icon {
+    font-size: 40px;
+  }
+}
+
+// ── Summary stat card ────────────────────────────────────────────────────────
+.stat-card {
+  background: #ffffff;
+  border-radius: 14px;
+  padding: 16px;
+  margin: 16px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.07), 0 4px 12px rgba(0, 0, 0, 0.05);
+  border: 1px solid #E2E8F0;
+}
+
+.stat-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: rgba(22, 163, 74, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+
+  ion-icon {
+    font-size: 22px;
+    color: #16a34a;
+  }
+}
+
+.stat-body {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.stat-value {
+  font-size: 22px;
+  font-weight: 800;
+  color: #0F172A;
+  line-height: 1;
+}
+
+.stat-label {
+  font-size: 12px;
+  color: #64748B;
+  font-weight: 600;
+}
+
+// ── Entry cards ──────────────────────────────────────────────────────────────
+.entry-card {
+  background: #ffffff;
+  border-radius: 14px;
+  border: 1px solid #E2E8F0;
+  margin: 0 16px 12px;
+  padding: 14px 16px;
+}
+
+.entry-date {
+  font-size: 13px;
+  font-weight: 700;
+  color: #0F172A;
+  margin-bottom: 10px;
+}
+
+.entry-row {
+  display: flex;
+  justify-content: space-between;
+}
+
+.entry-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+}
+
+.entry-label {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #94a3b8;
+  font-weight: 600;
+  margin-bottom: 2px;
+}
+
+.entry-value {
+  font-size: 15px;
+  font-weight: 600;
+  color: #0F172A;
+
+  &.accent {
+    color: #16a34a;
+  }
+}

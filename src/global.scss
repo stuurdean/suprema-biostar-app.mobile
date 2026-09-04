@@ -1,0 +1,94 @@
+/*
+ * App Global CSS
+ * ----------------------------------------------------------------------------
+ * Put style rules here that you want to apply globally. These styles are for
+ * the entire app and not just one component. Additionally, this file can be
+ * used as an entry point to import other CSS/Sass files to be included in the
+ * output CSS.
+ * For more information on global stylesheets, visit the documentation:
+ * https://ionicframework.com/docs/layout/global-stylesheets
+ */
+
+/* Core CSS required for Ionic components to work properly */
+@import "@ionic/angular/css/core.css";
+
+/* Basic CSS for apps built with Ionic */
+@import "@ionic/angular/css/normalize.css";
+@import "@ionic/angular/css/structure.css";
+@import "@ionic/angular/css/typography.css";
+@import "@ionic/angular/css/display.css";
+
+/* Optional CSS utils that can be commented out */
+@import "@ionic/angular/css/padding.css";
+@import "@ionic/angular/css/float-elements.css";
+@import "@ionic/angular/css/text-alignment.css";
+@import "@ionic/angular/css/text-transformation.css";
+@import "@ionic/angular/css/flex-utils.css";
+
+/**
+ * Ionic Dark Mode
+ * -----------------------------------------------------
+ * For more info, please see:
+ * https://ionicframework.com/docs/theming/dark-mode
+ */
+
+/* @import "@ionic/angular/css/palettes/dark.always.css"; */
+/* @import "@ionic/angular/css/palettes/dark.class.css"; */
+@import "@ionic/angular/css/palettes/dark.system.css";
+
+/**
+ * Platform look & feel
+ * -----------------------------------------------------------------------------
+ * Ionic already renders every ion-* component (headers, tab bars, back buttons,
+ * spinners, alerts, transitions) natively per platform because no `mode` is
+ * forced in IonicModule.forRoot() — it auto-detects iOS vs Android (Material/md)
+ * from the device and applies the "ios"/"md" class to <html>.
+ *
+ * These rules extend that same distinction to our custom (non ion-*) cards and
+ * buttons, which Ionic has no opinion about on its own:
+ *   - iOS:  flat cards with a hairline border, no shadow, pill-rounded buttons,
+ *           a soft opacity dim on press (iOS touch-highlight convention).
+ *   - md:   elevated cards with a drop shadow, squarer corners, and a flat
+ *           tint on press (Material touch-ripple approximation).
+ */
+
+$platform-cards: '.form-card, .action-card, .face-card, .section-card, .connect-card, .entry-card, .portal-access, .stat-card';
+$platform-buttons: '.btn-primary, .btn-secondary, .btn-login, .enroll-btn, .quick-action-btn';
+$platform-tappables: '.action-row, .user-card, .device-card, .quick-action-btn';
+
+.ios {
+  #{$platform-cards} {
+    box-shadow: none !important;
+    border: 1px solid var(--ion-border-color, #E2E8F0);
+  }
+
+  #{$platform-buttons} {
+    border-radius: 14px !important;
+  }
+
+  #{$platform-tappables}:active {
+    opacity: 0.6;
+    transition: opacity 0.1s ease-out;
+  }
+}
+
+.md {
+  #{$platform-cards} {
+    border-color: transparent !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08), 0 3px 8px rgba(0, 0, 0, 0.06);
+  }
+
+  #{$platform-buttons} {
+    border-radius: 8px !important;
+  }
+
+  #{$platform-tappables} {
+    position: relative;
+    overflow: hidden;
+  }
+
+  #{$platform-tappables}:active {
+    background-color: rgba(0, 0, 0, 0.06);
+    transition: background-color 0.1s ease-out;
+  }
+}

@@ -1,0 +1,96 @@
+<ion-content [fullscreen]="true" class="login-content">
+
+  <!-- Background layer -->
+  <div class="login-bg">
+
+    <!-- Decorative blurred circles -->
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+
+    <!-- Center card wrapper -->
+    <div class="login-wrapper">
+
+      <!-- Logo / Brand -->
+      <div class="brand">
+        <div class="brand-icon">
+          <ion-icon name="shield-checkmark-outline"></ion-icon>
+        </div>
+        <h1 class="brand-name">Suprema BioStar</h1>
+        <p class="brand-sub">Sign in to view your access logs and timesheet</p>
+      </div>
+
+      <!-- White card -->
+      <div class="login-card">
+
+        <div class="card-header">
+          <h2 class="card-title">Welcome back</h2>
+          <p class="card-subtitle">Portal users sign in with their BioStar user ID; operators and admins with their email</p>
+        </div>
+
+        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login-form">
+
+          <!-- Identifier field -->
+          <div class="field-group">
+            <label class="field-label" for="identifier">User ID or Email</label>
+            <div class="input-wrapper" [class.input-error]="isFieldInvalid('identifier')">
+              <ion-icon name="person-outline" class="input-icon" aria-hidden="true"></ion-icon>
+              <input
+                id="identifier"
+                type="text"
+                formControlName="identifier"
+                placeholder="e.g. 1024 or you@company.com"
+                class="field-input"
+                autocapitalize="off"
+                autocomplete="username"
+              />
+            </div>
+            <span class="error-msg" *ngIf="isFieldInvalid('identifier')">User ID or email is required</span>
+          </div>
+
+          <!-- Password field -->
+          <div class="field-group">
+            <label class="field-label" for="password">Password</label>
+            <div class="input-wrapper" [class.input-error]="isFieldInvalid('password')">
+              <ion-icon name="lock-closed-outline" class="input-icon" aria-hidden="true"></ion-icon>
+              <input
+                id="password"
+                [type]="showPassword ? 'text' : 'password'"
+                formControlName="password"
+                placeholder="Enter your password"
+                class="field-input"
+                autocomplete="current-password"
+              />
+              <button type="button" class="toggle-pw" (click)="togglePassword()">
+                <ion-icon [name]="showPassword ? 'eye-off-outline' : 'eye-outline'"></ion-icon>
+              </button>
+            </div>
+            <span class="error-msg" *ngIf="isFieldInvalid('password')">Password is required</span>
+          </div>
+
+          <!-- Submit -->
+          <button
+            type="submit"
+            class="btn-login"
+            [class.btn-loading]="isLoading"
+            [disabled]="loginForm.invalid || isLoading"
+          >
+            <ion-spinner *ngIf="isLoading" name="crescent" class="btn-spinner"></ion-spinner>
+            <span *ngIf="!isLoading">Sign In</span>
+          </button>
+
+          <!-- Error banner -->
+          <div class="error-banner" *ngIf="errorMessage">
+            <ion-icon name="alert-circle-outline"></ion-icon>
+            <span>{{ errorMessage }}</span>
+          </div>
+
+        </form>
+
+      </div>
+
+      <p class="footer-note">Suprema BioStar Access Control</p>
+
+    </div>
+  </div>
+
+</ion-content>

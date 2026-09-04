@@ -1,0 +1,66 @@
+<ion-header [translucent]="true">
+  <ion-toolbar class="brand-toolbar">
+    <ion-title>Devices</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="showConnectForm = !showConnectForm">
+        <ion-icon slot="icon-only" [name]="showConnectForm ? 'close-outline' : 'add-outline'"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="devices-content">
+  <ion-refresher slot="fixed" (ionRefresh)="onRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <!-- Connect form -->
+  <div class="connect-card" *ngIf="showConnectForm">
+    <div class="field-group">
+      <label class="field-label">Device IP address</label>
+      <div class="input-wrapper">
+        <ion-icon name="wifi-outline" class="input-icon"></ion-icon>
+        <input type="text" [(ngModel)]="ipAddress" placeholder="192.168.1.50" class="field-input" />
+      </div>
+    </div>
+    <div class="field-group">
+      <label class="field-label">Port</label>
+      <div class="input-wrapper">
+        <ion-icon name="git-network-outline" class="input-icon"></ion-icon>
+        <input type="number" [(ngModel)]="port" class="field-input" />
+      </div>
+    </div>
+    <button class="btn-primary" [disabled]="!ipAddress || connecting" (click)="connect()">
+      {{ connecting ? 'Connecting…' : 'Connect' }}
+    </button>
+  </div>
+
+  <p class="error-text" *ngIf="errorMessage">{{ errorMessage }}</p>
+
+  <div class="state-message" *ngIf="isLoading">
+    <ion-spinner name="crescent"></ion-spinner>
+  </div>
+
+  <div class="state-message" *ngIf="!isLoading && devices.length === 0">
+    <ion-icon name="desktop-outline"></ion-icon>
+    <p>No devices connected yet.</p>
+  </div>
+
+  <div class="device-card" *ngFor="let device of devices">
+    <div class="device-row">
+      <div class="device-icon-wrap" [class.online]="device.isOnline">
+        <ion-icon name="hardware-chip-outline"></ion-icon>
+      </div>
+      <div class="device-body">
+        <span class="device-name">{{ device.name || ('Device #' + device.deviceId) }}</span>
+        <span class="device-sub">{{ device.ipAddress }}:{{ device.port }} · {{ device.connectionMode }}</span>
+      </div>
+      <span class="status-pill" [class.online]="device.isOnline">{{ device.isOnline ? 'Online' : 'Offline' }}</span>
+    </div>
+    <div class="device-caps">
+      <span class="cap" [class.on]="device.fingerprintSupported"><ion-icon name="finger-print-outline"></ion-icon> Fingerprint</span>
+      <span class="cap" [class.on]="device.cardSupported"><ion-icon name="card-outline"></ion-icon> Card</span>
+      <span class="cap" [class.on]="device.faceSupported"><ion-icon name="scan-outline"></ion-icon> Face</span>
+    </div>
+  </div>
+</ion-content>

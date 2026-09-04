@@ -1,0 +1,136 @@
+.brand-toolbar {
+  --background: #0F172A;
+  --color: #ffffff;
+  --border-width: 0;
+}
+
+.logs-content {
+  --background: #F1F5F9;
+}
+
+.state-message {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 48px 24px;
+  color: var(--ion-color-medium);
+  text-align: center;
+
+  ion-icon {
+    font-size: 40px;
+  }
+}
+
+// ── Summary stat card ────────────────────────────────────────────────────────
+.stat-card {
+  background: #ffffff;
+  border-radius: 14px;
+  padding: 16px;
+  margin: 16px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.07), 0 4px 12px rgba(0, 0, 0, 0.05);
+  border: 1px solid #E2E8F0;
+}
+
+.stat-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: rgba(22, 163, 74, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+
+  ion-icon {
+    font-size: 22px;
+    color: #16a34a;
+  }
+}
+
+.stat-body {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.stat-value {
+  font-size: 22px;
+  font-weight: 800;
+  color: #0F172A;
+  line-height: 1;
+}
+
+.stat-label {
+  font-size: 12px;
+  color: #64748B;
+  font-weight: 600;
+}
+
+// ── Log list card ────────────────────────────────────────────────────────────
+.log-card {
+  background: #ffffff;
+  border-radius: 14px;
+  border: 1px solid #E2E8F0;
+  margin: 0 16px 16px;
+  overflow: hidden;
+}
+
+.log-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+
+  &:not(:last-child) {
+    border-bottom: 1px solid #F1F5F9;
+  }
+}
+
+.log-icon-wrap {
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+
+  ion-icon {
+    font-size: 17px;
+  }
+
+  &.success { background: #DCFCE7; ion-icon { color: #16a34a; } }
+  &.danger  { background: #FEE2E2; ion-icon { color: #dc2626; } }
+  &.info    { background: #DBEAFE; ion-icon { color: #2563eb; } }
+}
+
+.log-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  min-width: 0;
+}
+
+.log-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: #0F172A;
+}
+
+.log-sub {
+  font-size: 12px;
+  color: #64748B;
+}
+
+.log-time {
+  font-size: 11px;
+  color: #94a3b8;
+  flex-shrink: 0;
+  white-space: nowrap;
+}

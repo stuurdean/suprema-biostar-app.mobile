@@ -1,0 +1,40 @@
+// For information on how to create your own theme, please refer to:
+// https://ionicframework.com/docs/theming/
+
+// ─── SBMS-derived Design Tokens ────────────────────────────────────────────
+
+:root {
+  // Brand
+  --color-primary:        #16a34a;  // Buttons, active tab, badges, avatar ring
+  --color-sidebar:        #1f2937;  // Dark panels
+  --color-navy:           #0F172A;  // Login gradient / hero header start
+  --color-surface:        #F1F5F9;  // Page/content area background
+  --color-white:          #FFFFFF;  // Cards, header bar, dialogs
+  --color-border-light:   #E2E8F0;  // Card borders, dividers
+  --color-text-secondary: #64748B;  // Subtitles, labels
+
+  // Status badge backgrounds (log event types)
+  --color-badge-success:  #DCFCE7;
+  --color-badge-warning:  #FEF3C7;
+  --color-badge-danger:   #FEE2E2;
+  --color-badge-info:     #DBEAFE;
+
+  // ─── Ionic overrides ────────────────────────────────────────────────────
+  --ion-color-primary:              #16a34a;
+  --ion-color-primary-rgb:          22, 163, 74;
+  --ion-color-primary-contrast:     #ffffff;
+  --ion-color-primary-contrast-rgb: 255, 255, 255;
+  --ion-color-primary-shade:        #138f41;
+  --ion-color-primary-tint:         #2dac5c;
+
+  --ion-background-color:           #F1F5F9;
+  --ion-background-color-rgb:       241, 245, 249;
+
+  --ion-toolbar-background:         #FFFFFF;
+  --ion-item-background:            #FFFFFF;
+
+  --ion-border-color:               #E2E8F0;
+
+  --ion-text-color:                 #0F172A;
+  --ion-text-color-rgb:             15, 23, 42;
+}

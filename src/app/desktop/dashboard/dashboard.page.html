@@ -1,0 +1,115 @@
+<ion-header [translucent]="true">
+  <ion-toolbar class="brand-toolbar">
+    <ion-title>Dashboard</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="dashboard-content">
+  <ion-refresher slot="fixed" (ionRefresh)="onRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <div class="welcome-banner">
+    <h2>Welcome back</h2>
+    <p>{{ today | date: 'fullDate' }}</p>
+  </div>
+
+  <p class="error-text" *ngIf="errorMessage">{{ errorMessage }}</p>
+
+  <div class="state-message" *ngIf="isLoading">
+    <ion-spinner name="crescent"></ion-spinner>
+  </div>
+
+  <ng-container *ngIf="!isLoading">
+    <!-- Stats row -->
+    <div class="stats-row">
+      <div class="stat-card">
+        <div class="stat-icon"><ion-icon name="desktop-outline"></ion-icon></div>
+        <div class="stat-body">
+          <span class="stat-value">{{ connectedDevices.length }}</span>
+          <span class="stat-label">Devices</span>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon"><ion-icon name="people-outline"></ion-icon></div>
+        <div class="stat-body">
+          <span class="stat-value">{{ totalUsers }}</span>
+          <span class="stat-label">Users</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Log card — tap to open Logs -->
+    <div class="log-card" [routerLink]="['/desktop/logs']">
+      <div class="log-card-icon"><ion-icon name="document-text-outline"></ion-icon></div>
+      <div class="log-card-body">
+        <span class="log-card-title">Access Logs</span>
+        <span class="log-card-sub">{{ logCount }} events recorded</span>
+      </div>
+      <ion-icon name="chevron-forward-outline" class="log-card-arrow"></ion-icon>
+    </div>
+
+    <!-- Connected devices preview -->
+    <div class="section-card">
+      <div class="section-header">
+        <h3>Connected Devices</h3>
+        <a [routerLink]="['/desktop/devices']">View all</a>
+      </div>
+      <div class="preview-list" *ngIf="connectedDevices.length; else noDevices">
+        <div class="preview-item" *ngFor="let device of connectedDevices.slice(0, 3)">
+          <div class="preview-icon-wrap navy"><ion-icon name="hardware-chip-outline"></ion-icon></div>
+          <div class="preview-body">
+            <span class="preview-title">{{ device.name || ('Device #' + device.deviceId) }}</span>
+            <span class="preview-sub">{{ device.ipAddress }}:{{ device.port }}</span>
+          </div>
+        </div>
+      </div>
+      <ng-template #noDevices>
+        <div class="empty-state">
+          <ion-icon name="desktop-outline"></ion-icon>
+          <p>No devices connected yet.</p>
+        </div>
+      </ng-template>
+    </div>
+
+    <!-- Recently added users preview -->
+    <div class="section-card">
+      <div class="section-header">
+        <h3>Recently Added Users</h3>
+        <a [routerLink]="['/desktop/users']">View all</a>
+      </div>
+      <div class="preview-list" *ngIf="recentUsers.length; else noUsers">
+        <div class="preview-item" *ngFor="let user of recentUsers">
+          <div class="preview-icon-wrap green"><ion-icon name="person-add-outline"></ion-icon></div>
+          <div class="preview-body">
+            <span class="preview-title">{{ user.name }}</span>
+            <span class="preview-sub">{{ user.userType }} · ID {{ user.userId }}</span>
+          </div>
+        </div>
+      </div>
+      <ng-template #noUsers>
+        <div class="empty-state">
+          <ion-icon name="people-outline"></ion-icon>
+          <p>No users enrolled yet.</p>
+        </div>
+      </ng-template>
+    </div>
+
+    <!-- Quick actions -->
+    <div class="section-card">
+      <div class="section-header">
+        <h3>Quick Actions</h3>
+      </div>
+      <div class="quick-actions">
+        <a class="quick-action-btn" [routerLink]="['/desktop/devices']">
+          <div class="qa-icon navy"><ion-icon name="link-outline"></ion-icon></div>
+          <span>Connect Device</span>
+        </a>
+        <a class="quick-action-btn" [routerLink]="['/desktop/users/new']">
+          <div class="qa-icon green"><ion-icon name="person-add-outline"></ion-icon></div>
+          <span>Add User</span>
+        </a>
+      </div>
+    </div>
+  </ng-container>
+</ion-content>

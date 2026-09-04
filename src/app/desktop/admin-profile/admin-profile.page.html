@@ -1,0 +1,45 @@
+<ion-header [translucent]="true">
+  <ion-toolbar class="brand-toolbar">
+    <ion-title>Profile</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="profile-content">
+
+  <div class="profile-hero">
+    <div class="avatar-ring">
+      <div class="avatar-circle">{{ initials }}</div>
+    </div>
+    <h2 class="profile-name">{{ user?.displayName }}</h2>
+    <span class="role-badge">{{ user?.role }} · {{ user?.subLabel }}</span>
+  </div>
+
+  <div class="action-card">
+    <button class="action-row" [routerLink]="['/desktop/dashboard']">
+      <div class="info-icon-wrap sidebar"><ion-icon name="grid-outline"></ion-icon></div>
+      <span class="action-label">Dashboard</span>
+      <ion-icon name="chevron-forward-outline" class="action-arrow"></ion-icon>
+    </button>
+    <button class="action-row" [routerLink]="['/desktop/devices']">
+      <div class="info-icon-wrap green"><ion-icon name="desktop-outline"></ion-icon></div>
+      <span class="action-label">Devices</span>
+      <ion-icon name="chevron-forward-outline" class="action-arrow"></ion-icon>
+    </button>
+    <button class="action-row" [routerLink]="['/desktop/users']">
+      <div class="info-icon-wrap navy"><ion-icon name="people-outline"></ion-icon></div>
+      <span class="action-label">Users</span>
+      <ion-icon name="chevron-forward-outline" class="action-arrow"></ion-icon>
+    </button>
+    <button class="action-row" [routerLink]="['/desktop/logs']">
+      <div class="info-icon-wrap green"><ion-icon name="document-text-outline"></ion-icon></div>
+      <span class="action-label">Logs</span>
+      <ion-icon name="chevron-forward-outline" class="action-arrow"></ion-icon>
+    </button>
+  </div>
+
+  <button class="logout-btn" (click)="logout()">
+    <ion-icon name="log-out-outline"></ion-icon>
+    Log Out
+  </button>
+
+</ion-content>

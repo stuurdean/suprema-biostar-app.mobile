@@ -1,0 +1,50 @@
+<ion-header [translucent]="true">
+  <ion-toolbar class="brand-toolbar">
+    <ion-title>Timesheet</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="timesheet-content">
+  <ion-refresher slot="fixed" (ionRefresh)="onRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <div class="stat-card" *ngIf="!isLoading && !errorMessage">
+    <div class="stat-icon"><ion-icon name="time-outline"></ion-icon></div>
+    <div class="stat-body">
+      <span class="stat-value">{{ totalHours }}h</span>
+      <span class="stat-label">Last 30 days</span>
+    </div>
+  </div>
+
+  <div class="state-message" *ngIf="isLoading">
+    <ion-spinner name="crescent"></ion-spinner>
+  </div>
+
+  <div class="state-message" *ngIf="!isLoading && errorMessage">
+    <p>{{ errorMessage }}</p>
+  </div>
+
+  <div class="state-message" *ngIf="!isLoading && !errorMessage && entries.length === 0">
+    <ion-icon name="time-outline"></ion-icon>
+    <p>No timesheet entries in the last 30 days.</p>
+  </div>
+
+  <div class="entry-card" *ngFor="let entry of entries">
+    <div class="entry-date">{{ entry.date | date: 'fullDate' }}</div>
+    <div class="entry-row">
+      <div class="entry-col">
+        <span class="entry-label">Check in</span>
+        <span class="entry-value">{{ entry.checkIn ? (entry.checkIn | date: 'shortTime') : '—' }}</span>
+      </div>
+      <div class="entry-col">
+        <span class="entry-label">Check out</span>
+        <span class="entry-value">{{ entry.checkOut ? (entry.checkOut | date: 'shortTime') : '—' }}</span>
+      </div>
+      <div class="entry-col">
+        <span class="entry-label">Hours</span>
+        <span class="entry-value accent">{{ entry.hoursWorked ?? '—' }}</span>
+      </div>
+    </div>
+  </div>
+</ion-content>
