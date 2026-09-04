@@ -1,0 +1,52 @@
+<ion-header [translucent]="true">
+  <ion-toolbar class="brand-toolbar">
+    <ion-buttons slot="start">
+      <ion-button (click)="back()">
+        <ion-icon slot="icon-only" name="arrow-back-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Server Settings</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="settings-content">
+
+  <div class="settings-card">
+    <div class="info-icon-wrap">
+      <ion-icon name="server-outline"></ion-icon>
+    </div>
+    <h2 class="settings-title">Backend Server Address</h2>
+    <p class="settings-desc">
+      Point this app at your Suprema BioStar backend — e.g. <code>192.168.1.50:5080</code> or
+      <code>https://biostar.company.com</code>. Leave blank to use the app's default (same-origin) address.
+    </p>
+
+    <div class="field-group">
+      <label class="field-label" for="serverAddress">Server address</label>
+      <div class="input-wrapper">
+        <ion-icon name="globe-outline" class="input-icon"></ion-icon>
+        <input
+          id="serverAddress"
+          type="text"
+          [(ngModel)]="serverAddress"
+          (ngModelChange)="onAddressChange()"
+          placeholder="192.168.1.50:5080"
+          class="field-input"
+          autocapitalize="off"
+          autocorrect="off"
+        />
+      </div>
+    </div>
+
+    <button type="button" class="btn-primary" (click)="save()">
+      <ion-icon name="checkmark-outline"></ion-icon>
+      Save
+    </button>
+
+    <div class="saved-banner" *ngIf="saved">
+      <ion-icon name="checkmark-circle"></ion-icon>
+      <span>Saved. Restart the app or sign in again for it to take effect.</span>
+    </div>
+  </div>
+
+</ion-content>

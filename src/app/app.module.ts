@@ -8,13 +8,14 @@ import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { authInterceptor } from './core/interceptors/auth-interceptor';
+import { serverUrlInterceptor } from './core/interceptors/server-url-interceptor';
 
 @NgModule({
   declarations: [AppComponent],
   imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule],
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
-    provideHttpClient(withInterceptors([authInterceptor])),
+    provideHttpClient(withInterceptors([serverUrlInterceptor, authInterceptor])),
   ],
   bootstrap: [AppComponent],
 })
